@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Cuadrática</title>
+  <script type="text/javascript" charset="UTF-8"
+    src="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@500&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/jsxgraph@1.2.1/distrib/geonext.min.js" type="text/javascript"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script async type="text/javascript" id="MathJax-script" src="./libreria.js"></script>
+</head>
+
+<body>
+  <style>
+    .ejercicio {
+      display: table;
+      width: 500px;
+      margin: 0 auto;
+      font-size: 12px;
+      font-family: Lexend;
+    }
+    .ingresoSolucion {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      font-family: 'Lexend', sans-serif;
+
+    }
+
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .comparacion {
+      padding-top: 20px;
+      justify-content: center;
+    }
+
+    .boton {
+      font-family: 'Lexend', sans-serif;
+      font-weight: 100;
+      align-items: center;
+      margin-left: 10px;
+      font-size: 14px;
+      border: 2px solid;
+      border-radius: 8px;
+      height: 45px;
+      width: 200px;
+      color: white;
+      background-color: #F97F51;
+      cursor: pointer
+    }
+
+    .ingresox {
+      width: 100%;
+      max-width: 200px;
+      border-radius: 2px;
+      padding: 10px 5px 10px;
+      margin-top: 10px;
+    }
+
+    .slidecontainer {
+      width: 100%;
+      /* Width of the outside container */
+    }
+
+    .slider {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 15px;
+      border-radius: 5px;
+      background: #d3d3d3;
+      outline: none;
+      opacity: 0.7;
+      -webkit-transition: .2s;
+      transition: opacity .2s;
+    }
+
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background: #F97F51;
+      cursor: pointer;
+    }
+
+    .slider::-webkit-slider-thumb:hover {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background: #55E6C1;
+      cursor: pointer;
+    }
+
+    .slider::-moz-range-thumb {
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background: #F97F51;
+      cursor: pointer;
+    }
+
+    .slider::-moz-range-thumb:hover {
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background: #55E6C1;
+      cursor: pointer;
+    }
+
+    /* mobile first */
+    .jxgbox {
+      width: 100%;
+      height: 400px;
+      margin: auto;
+    }
+
+    .felicitaciones img {
+      width: 150px;
+      margin-top: 400px;
+      border-radius: 10px;
+    }
+
+    .cartel_arriba {
+      width: 100%;
+      color: white;
+      background-color: #3B3B98;
+      margin: auto;
+      padding: 20px 0 20px 0;
+      text-align: center;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+
+    .boton_actualizar {
+      padding: 5px 0 5px 0;
+      color: white;
+      background-color: #F97F51;
+      width: 150px;
+      margin: auto;
+      font-family: 'Lexend', sans-serif;
+      font-size: 24px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    /* tabletas */
+    @media (min-width: 768px) {
+      .jxgbox {
+        width: 600px;
+        height: 600px;
+        margin: auto;
+      }
+
+      .slider {
+        width: 500px;
+      }
+
+      .cartel_arriba {
+        width: 600px;
+      }
+
+      .felicitaciones img {
+        width: 300px;
+        margin-top: 250px;
+      }
+
+      .boton_actualizar {
+        width: 300px;
+      }
+    }
+
+    /* escritorio normales */
+    @media (min-width: 992px) {
+      .jxgbox {
+        width: 500px;
+        height: 500px;
+        margin: auto;
+      }
+
+      .slider {
+        width: 400px;
+      }
+
+      .cartel_arriba {
+        width: 500px;
+      }
+
+      .felicitaciones img {
+        width: 350px;
+        margin-top: 400px;
+      }
+
+      .boton_actualizar {
+        width: 350px;
+      }
+    }
+
+    .felicitaciones {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 15;
+      width: 100vw;
+      height: 100vh;
+      text-align: center;
+      background-color: transparent;
+      margin: auto;
+      font-family: 'Lexend', sans-serif;
+    }
+
+    .texto_arriba {
+      font-size: 12px;
+      font-family: 'Lexend', sans-serif !important;
+    }
+
+    .sliders {
+      display: table;
+      margin: 0 auto;
+
+    }
+
+    .slider_container {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+
+    .slider {
+      margin: 10px;
+    }
+
+    .slider:hover {
+      opacity: 5;
+      background-color: #3B3B98;
+    }
+  </style>
+  <div class="sliders">
+    <div class="slider_container">
+      <input class="slider" type="range" id="a" min="-100" max="100" value="60"
+        oninput="a = this.value*0.01; board.update();" />
+      <label>a: <span id="aa"></span></label>
+    </div>
+
+    <div class="slider_container">
+      <input class="slider" type="range" id="b" min="-5" max="5" value="0" oninput="b = this.value; board.update();" />
+      <label>b: <span id="bb"></span></label>
+
+    </div>
+
+    <div class="slider_container">
+      <input class="slider" type="range" id="c" min="-40" max="40" value="0" oninput="c = this.value*0.1; 
+                    board.updateQuality = board.BOARD_QUALITY_HIGH;
+                    board.update();" />
+      <label>c: <span id="cc"></span></label>
+
+    </div>
+
+
+  </div>
+
+  <script>
+    //Funcion random
+    function getRandomArbitrary(min, max) {
+      return Math.random() * (max - min) + min;
+    };
+  </script>
+
+  <div class="cartel_arriba">
+    <div>
+      Expresión algebraica general f(x) = <label id="out"></label>
+    </div>
+    <div>
+      Expreción algebraica factorizada: f(x) = <label id="out2"></label>
+    </div>
+  </div>
+  <div id="gifFelicitaciones" class="felicitaciones" style="display: none;">
+    <img src="https://i.giphy.com/media/UtJtnnbCtJjSd0utDn/giphy.webp"></br>
+    <div class="boton_actualizar" onclick="nuevaFuncion()">Probar de nuevo</div>
+  </div>
+
+  <div id="box" class="jxgbox" ></div>
+  <script type="text/javascript">
+    JXG.Options.text.useMathJax = true;
+    var board = JXG.JSXGraph.initBoard('box', {
+      boundingbox: [-4, 4, 4, -4], axis: true,
+      showCopyright: false,
+      showNavigation: true,
+      keepaspectratio: false,
+      zoom:
+      {
+        wheel: false,
+        enabled: false
+      },
+      pan:
+      {
+        needTwoFingers: true,
+        enabled: false
+      }
+    });
+    var a = 0.6;
+    var b = 0;
+    var c = -2;
+    var cuadratica = function (x) { return a * x * x + b * x + c };
+
+    var a2 = Math.round(getRandomArbitrary(0.3, 1) * 10) / 10;
+    var b2 = Math.round(getRandomArbitrary(-1, 1));
+    var c2 = Math.round(getRandomArbitrary(-2, 0) * 10) / 10;
+    var cuadratica2 = function (x) { return a2 * x * x + b2 * x + c2 };
+    var eccuadratica = ((Math.pow(b2, 2)) - (4 * a2 * c2));
+
+    if (eccuadratica > 0) {
+      var respuesta1 = ((-b2 + Math.sqrt(eccuadratica)) / (2 * a2)).toFixed(1);
+      var respuesta2 = ((-b2 - Math.sqrt(eccuadratica)) / (2 * a2)).toFixed(1);
+    } else if (eccuadratica == 0) {
+      var respuesta1 = ((-b2 + Math.sqrt(eccuadratica)) / (2 * a2)).toFixed(1);
+      var respuesta2 = null;
+    } else if (eccuadratica < 0) {
+      var respuesta1 = "No hay solucion";
+      var respuesta2 = null;
+    };
+    console.log(respuesta1);
+
+    var f2 = 17;
+    var G0 = board.create('functiongraph', [cuadratica, -5, 5], { strokeWidth: 5, strokeColor: '#FC427B' });
+
+    var G1 = board.create('functiongraph', [cuadratica2, -5, 5], { strokeWidth: 5, strokeColor: '#1B9CFC' });
+
+    //Eje X
+
+    //Intersección con eje X
+    var x11 = function () { return (-b + Math.sqrt(b * b - 4 * a * c)) / (2 * a); };
+    var x22 = function () { return (-b - Math.sqrt(b * b - 4 * a * c)) / (2 * a); };
+    var x1 = board.create('point', [x11, 0], { name: "T", label: "T", strokeWidth: 3, strokeColor: '#FC427B', size: 5 });
+    var x2 = board.create('point', [x22, 0], { name: "T", label: "T", strokeWidth: 3, strokeColor: '#FC427B', size: 5 });
+    function verNegativo(num) {
+      if (num >= 0) {
+        return "+ "
+      } else {
+        return " ";
+      };
+    };
+
+    //Punto C
+    var T = board.create('point', [0, function () { return c }], { name: "C", label: "C", strokeWidth: 1, color: '#EAB543', size: 5 });
+    var o = board.create('point', [0, 0], { visible: false });
+    var l1 = board.create('line', [o, T], { straightFirst: false, straightLast: false, strokeColor: '#2C3A47', dash: 2 });
+
+    // Textos afuera
+    board.on('update', function () {
+      document.getElementById('out').innerHTML = "\\(" + Math.round(a * 10) / 10 + "x^2 " + verNegativo(b) + Math.round(b * 10) / 10 + "x " + verNegativo(c) + Math.round(c * 10) / 10 + " = 0 \\)";
+      MathJax.typesetPromise();
+    });
+
+    board.on('update', function () {
+      var sol1 = Math.round((-b - Math.sqrt(b * b - 4 * a * c)) / (2 * a) * 10) / 10;
+      if (isNaN(sol1)) {
+        var sol11 = " Indeterminado";
+      } else {
+        var sol11 = sol1;
+      };
+      var sol2 = Math.round((-b + Math.sqrt(b * b - 4 * a * c)) / (2 * a) * 10) / 10;
+      if (isNaN(sol2)) {
+        var sol22 = " Indeterminado";
+      } else {
+        var sol22 = sol2;
+      };
+      document.getElementById('out2').innerHTML = "\\( (x " + verNegativo(sol1) + sol11 + ")(x " + verNegativo(sol2) + sol22 + ") \\)";
+      MathJax.typesetPromise();
+    });
+
+    //Input
+    //var input = board.create('input', [0, -3, '0', 'f(x)='], {cssStyle: 'width: 100px'});
+    //var f = board.jc.snippet(input.Value(), true, 'x', false);
+    //var graph = board.create('functiongraph',[f,
+    //         function() {
+    //           var c = new JXG.Coords(JXG.COORDS_BY_SCREEN,[0,-3.5],board);
+    //           return c.usrCoords[1];
+    //         },
+    //         function() {
+    //           var c = new JXG.Coords(JXG.COORDS_BY_SCREEN,[board.canvasWidth,0],board);
+    //          return c.usrCoords[1];
+    //        }
+    //      ]);
+
+    // board.create('text', [0, -3.5, '<button onclick="updateGraph()">OK</button>'], {color: '#FC427B'});
+
+    //var updateGraph = function() {
+    //    graph.Y = board.jc.snippet(input.Value(), true, 'x', false);
+    //    graph.updateCurve();
+    //    board.update();
+    //}
+
+    // para renderizar valores en la los sliders
+    board.on('update', function () {
+      document.getElementById('aa').innerHTML = Math.round(a * 10) / 10;
+    });
+
+    board.on('update', function () {
+      document.getElementById('bb').innerHTML = Math.round(b * 10) / 10;
+    });
+
+    board.on('update', function () {
+      document.getElementById('cc').innerHTML = Math.round(c * 10) / 10;
+    });
+
+    function comparar() {
+      var inputx = document.getElementById("valx").value;
+
+      if (inputx == respuesta1 || inputx == respuesta2) {
+        var div = document.getElementById('gifFelicitaciones');
+        div.style.display = "block";
+      } else {
+        document.getElementById('incorrecta').style.display = "block";
+      }
+
+    };
+
+    function nuevaFuncion() {
+      board.removeObject(G1);
+      a2 = Math.round(getRandomArbitrary(0.3, 1) * 10) / 10;
+      b2 = Math.round(getRandomArbitrary(-1, 1));
+      c2 = Math.round(getRandomArbitrary(-2, 0) * 10) / 10;
+
+      cuadratica2 = function (x) { return a2 * x * x + b2 * x + c2 };
+      eccuadratica = ((Math.pow(b2, 2)) - (4 * a2 * c2));
+
+      div = document.getElementById('gifFelicitaciones');
+      div.style.display = 'none';
+
+      if (eccuadratica > 0) {
+        respuesta1 = ((-b2 + Math.sqrt(eccuadratica)) / (2 * a2)).toFixed(1);
+        respuesta2 = ((-b2 - Math.sqrt(eccuadratica)) / (2 * a2)).toFixed(1);
+
+      }else if (eccuadratica == 0) {
+        respuesta1 = ((-b2 + Math.sqrt(eccuadratica)) / (2 * a2)).toFixed(1);
+        respuesta2 = null;
+
+      } else if (eccuadratica < 0) {
+        respuesta1 = "No hay solucion";
+        respuesta2 = null;
+      };
+
+      G1 = board.create('functiongraph', [cuadratica2, -5, 5], { strokeWidth: 5, strokeColor: '#1B9CFC' });
+    };
+  </script>
+
+  <div class="ejercicio">
+    <p>Mueve los parámetros de la función cuadrática de color rojo de la forma f(x)=ax2+bx+c para hacerlos “calzar” con
+      la función cuadrática de color azul.
+      Fíjate bien cómo afectan estos valores a la expresión algebraica de la función. </p>
+    <p>Como Tip, puedes partir con la letra C, que describe la intersección de la gráfica de la función con el eje Y
+      (punto amarillo) y hacerlo “calzar”
+      con la gráfica de la función en color azul.
+    </p>
+    <p>Una vez "calzada" pon tu dedo o mouse sobre uno de los puntos rojos (Soluciones) e introduce el valor de alguna
+      de las 2 en el recuadro de abajo
+      (son los mismos valores que aparecen en la expresión factorizada asociada a la función)</p>
+  </div>
+  <div class="comparacion">
+    <div class="ingresoSolucion">Ingresa el resultado</div><br>
+    <div class="ingresoSolucion">
+      <input class="ingresox" id="valx" type="number" style="appearance: none"></input>
+      <button class="boton" onclick="comparar()"><a> Verificar </a></button>
+    </div>
+  </div>
+  <div class="ejercicio">
+    <p>Verificar</p>
+    <p> Si te fijas, en la función factorizada, ¡Son justo las soluciones de la ecuación cuadrática ax2+bx+x=0 y
+      también corresponden a la intersección con el eje X de la parábola!</p>
+    <p>\[x = {-b \pm \sqrt{b^2-4ac} \over 2a}.\]</p>
+    <p>¿Cómo sería con la expresión factorizada de la función cuando la parábola no intercepta con el eje x?</p>
+    <p>¿Cómo sería la expresión factorizada cuando la parábola intersecta en un solo punto?</p>
+  </div>
+
+</body>
+
+</html>
